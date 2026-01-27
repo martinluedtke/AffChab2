@@ -7,12 +7,22 @@ N = 20 # precision
 P0 = (0,0)  # base point
 A = (1/18, 7/18)  # G := A - P0 generates the Mordell-Weil group up to finite index
 
+print(f"Curve: y^3 = x^3 + {a if a != 1 else ''}x^2 + x")
+print(f"base point: P₀ = {P0}")
+print(f"Mordell—Weil generator: A - P₀ with A = {A}")
+print(f"auxiliary prime: {p}")
+print(f"precision: {N}")
+
 K = Qp(p,N)
 X = SuperEllipticExampleCurve(K, a)
 
 MW_ints = X.coleman_integrals_on_basis(X(P0), X(A))
 
-# reduction type Q₂ modulo (2ζ₃ + 23)
+# reduction type Q₂ modulo (2ζ₃ + 23), i.e. (u,v) = (232,0) mod 487, where u = y/x, v = 1/x
+print(f"S = {487}")
+print(f"reduction type: (u,v) = (232,0) mod 487")
+print("")
+
 β2 = -log(K(2)) - 1/2*log(K(3))
 β3 = β2
 ζ3 = K.primitive_root_of_unity(3)
