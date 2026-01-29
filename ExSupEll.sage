@@ -61,6 +61,8 @@ print("Annihilating log differential ω = a₁ω₁ + a₂ω₂ + a₃ω₃ has 
 print(f"  a₁ = {a1}")
 print(f"  a₂ = {a2}")
 print(f"  a₃ = {a3}")
+print("")
+
 # We check this for (216/487, 438/487)
 P = (216/487, 438/487)
 ints_P = X.coleman_integrals_on_basis(X(P0), X(P))
