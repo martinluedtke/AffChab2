@@ -50,6 +50,8 @@ M = matrix(K, [
 #print(f"matrix M(Σ^csp):")
 #print(M)
 
+print("Basis of log differentials: ω₁ = dx/y^2,  ω₂ = x dx/y^2,  ω₃ = dx/y")
+print("")
 
 ker_basis = M.right_kernel().basis()
 a1,a2,a3 = ker_basis[0]
