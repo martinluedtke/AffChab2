@@ -4,7 +4,7 @@ Computing S-integral points via the Affine Chabauty method: examples of hyperell
 Sage code for the paper "Affine Chabauty II" by M. Leonhardt and M. Lüdtke.
 
 The file `SupEllInt.sage` defines a class for curves of the form $y^3 = x^3 + ax^2 + x$ and a function `coleman_integrals_on_basis` to compute Coleman integrals of the logarithmic differentials $dx/y^2$, $x dx/y^2$, $dx/y$.
-The file `ExSupEll.sage` contains the Affine Chabauty computations for the $\mathbb{Z}[1/487]$-points on the curve with parameter $a = 1$. It determines an annihilating log differential and verifies its vanishing on the point $(216/487, 438/487)$, providing the computations for Example 5.3 of [LL26]. The file `ExHyp.sage` computes the Chabauty locus for the integrals points on the hyperelliptic curve 
+The file `ExSupEll.sage` contains the Affine Chabauty computations for the $\mathbb{Z}[1/487]$-points on the curve with parameter $a = 1$. It determines an annihilating log differential and verifies its vanishing on the point $(216/487, 438/487)$, providing the computations for Example 5.3 of [LL26]. The file `ExHyp.sage` computes the Chabauty locus for the integral points on the hyperelliptic curve 
 $$ y^2 = x^6 + 2*x^5 - 7*x^4 - 18*x^3 + 2*x^2 + 20*x + 9, $$
 showing [LL26], Theorem 5.2.
 
@@ -17,7 +17,7 @@ base point: P₀ = (0, 0)
 Mordell—Weil generator: A - P₀ with A = (1/18, 7/18)
 auxiliary prime: 7
 precision: 20
-S = 487
+S = {487}
 reduction type: (u,v) = (232,0) mod 487
 
 Annihilating log differential ω = a₁ω₁ + a₂ω₂ + a₃ω₃ has coefficients
