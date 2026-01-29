@@ -16,7 +16,7 @@ load("SupEllInt.sage")
 
 # We consider the curve y^3 = x^3 + ax^2 + x with parameter a = 1
 a = 1
-p = 7 # auxiliary prime
+p = 7 # auxiliary prime, must be 1 mod 3
 N = 10 # precision
 P0 = (0,0)  # base point
 A = (1/18, 7/18)  # G := A - P0 generates the Mordell-Weil group up to finite index
