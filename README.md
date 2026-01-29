@@ -5,7 +5,9 @@ Sage code for the paper "Affine Chabauty II" by M. Leonhardt and M. Lüdtke.
 
 The file `SupEllInt.sage` defines a class for curves of the form $y^3 = x^3 + ax^2 + x$ and a function `coleman_integrals_on_basis` to compute Coleman integrals of the logarithmic differentials $dx/y^2$, $x dx/y^2$, $dx/y$.
 The file `ExSupEll.sage` contains the Affine Chabauty computations for the $\mathbb{Z}[1/487]$-points on the curve with parameter $a = 1$. It determines an annihilating log differential and verifies its vanishing on the point $(216/487, 438/487)$, providing the computations for Example 5.3 of [LL26]. The file `ExHyp.sage` computes the Chabauty locus for the integral points on the hyperelliptic curve 
-$$ y^2 = x^6 + 2*x^5 - 7*x^4 - 18*x^3 + 2*x^2 + 20*x + 9, $$
+
+$$ y^2 = x^6 + 2x^5 - 7x^4 - 18x^3 + 2x^2 + 20x + 9, $$
+
 showing [LL26], Theorem 5.2.
 
 To run the code, place the Sage files in the working directory and call `sage ExSupEll.sage`. One also needs the code from [https://github.com/jbalakrishnan/AWS](https://github.com/jbalakrishnan/AWS) to compute Coleman integrals and the file `Zproots.sage` from [https://github.com/martinluedtke/RefinedCK](https://github.com/martinluedtke/RefinedCK) to compute roots of p-adic polynomials. The code was tested on Sage 10.8. 
