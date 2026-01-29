@@ -22,6 +22,8 @@ precision: 20
 S = {487}
 reduction type: (u,v) = (232,0) mod 487
 
+Basis of log differentials: ω₁ = dx/y^2,  ω₂ = x dx/y^2,  ω₃ = dx/y
+
 Annihilating log differential ω = a₁ω₁ + a₂ω₂ + a₃ω₃ has coefficients
   a₁ = 1 + O(7^18)
   a₂ = 2 + 6*7 + 2*7^2 + 3*7^3 + 4*7^5 + 5*7^6 + 2*7^7 + 4*7^8 + 5*7^9 + 3*7^10 + 5*7^12 + 4*7^13 + 6*7^14 + 3*7^15 + 6*7^16 + O(7^18)
