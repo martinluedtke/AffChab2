@@ -10,7 +10,7 @@ $$ y^2 = x^6 + 2x^5 - 7x^4 - 18x^3 + 2x^2 + 20x + 9, $$
 
 showing [LL26], Theorem 5.2.
 
-To run the code, place the Sage files in the working directory and call `sage ExSupEll.sage`. One also needs the code from [https://github.com/jbalakrishnan/AWS](https://github.com/jbalakrishnan/AWS) to compute Coleman integrals and the file `Zproots.sage` from [https://github.com/martinluedtke/RefinedCK](https://github.com/martinluedtke/RefinedCK) to compute roots of p-adic polynomials. The code was tested on Sage 10.8. 
+To run the code, place the Sage files in the working directory and call `sage ExSupEll.sage` or `sage ExHyp.sage`. One also needs the code from [https://github.com/jbalakrishnan/AWS](https://github.com/jbalakrishnan/AWS) to compute Coleman integrals and the file `Zproots.sage` from [https://github.com/martinluedtke/RefinedCK](https://github.com/martinluedtke/RefinedCK) to compute roots of p-adic polynomials. The code was tested on Sage 10.8. 
 
 The output of `ExSupEll.sage` should look as follows:
 ```
