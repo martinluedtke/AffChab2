@@ -52,7 +52,7 @@ def chabauty_function(P):
     ints = X.coleman_integrals_on_basis(X(P0),X(P))
     return sum(coeffs[i]*ints[i] for i in range(g+1))
 
-print("Check that the function vanishes on all known points:")
+print("Check that the function ρ(P) = ∫_P₀^P ω vanishes on all known points:")
 for P in known_points:
     print(f"    ρ({P}) = {chabauty_function(P)}")
 print("")
