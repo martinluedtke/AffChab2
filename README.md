@@ -47,7 +47,7 @@ Annihilating log differential ω = a₀ω₀ + a₁ω₁ + a₂ω₂ has coeffic
     a1 = 5 + 3*7 + 3*7^2 + 5*7^3 + 3*7^4 + 2*7^6 + 2*7^7 + 7^8 + 4*7^9 + 3*7^10 + 5*7^11 + 5*7^12 + 6*7^13 + O(7^14)
     a2 = 5 + 6*7 + 6*7^2 + 7^3 + 4*7^4 + 6*7^5 + 5*7^6 + 3*7^7 + 4*7^8 + 2*7^9 + 6*7^10 + 3*7^12 + 4*7^13 + O(7^14)
 
-Check that the function vanishes on all known points:
+Check that the function ρ(P) = ∫_P₀^P ω vanishes on all known points:
     ρ((-1, 1)) = 0
     ρ((0, 3)) = O(7^15)
     ρ((1, 3)) = O(7^15)
