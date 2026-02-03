@@ -18,7 +18,7 @@ f = x^6 + 2*x^5 - 7*x^4 - 18*x^3 + 2*x^2 + 20*x + 9
 p = 7
 prec = 15
 
-# known solutions (up to hyperelliptic involution)
+# known integral points
 known_points = [(-1,1),(0,3),(1,3),(-2,3),(-4,37), (-1,-1),(0,-3),(1,-3),(-2,-3),(-4,-37)]
 P0 = known_points[0]
 MW_generators = [known_points[1], known_points[2]]
