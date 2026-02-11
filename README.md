@@ -1,7 +1,7 @@
 # AffChab2
 Computing S-integral points via the Affine Chabauty method: examples of hyperelliptic and superelliptic curves
 
-Sage code for the paper "Affine Chabauty II" by M. Leonhardt and M. Lüdtke.
+Sage code for the paper "Affine Chabauty II" [[LL26]](https://arxiv.org/abs/2602.05643)
 
 The file `SupEllInt.sage` defines a class for curves of the form $y^3 = x^3 + ax^2 + x$ and a function `coleman_integrals_on_basis` to compute Coleman integrals of the logarithmic differentials $dx/y^2$, $x dx/y^2$, $dx/y$.
 The file `ExSupEll.sage` contains the Affine Chabauty computations for the $\mathbb{Z}[1/487]$-points on the curve with parameter $a = 1$. It determines an annihilating log differential and verifies its vanishing on the point $(216/487, 438/487)$, providing the computations for Example 5.3 of [LL26]. The file `ExHyp.sage` computes the Chabauty locus for the integral points on the hyperelliptic curve 
@@ -94,4 +94,4 @@ Chabauty locus contains 10 known points and 0 extra points.
 - Martin Lüdtke
 
 ## References
-- [LL26] M. Leonhardt, Martin Lüdtke, "Affine Chabauty II"
+- [LL26] M. Leonhardt, Martin Lüdtke, "Affine Chabauty II" [(arXiv)](https://arxiv.org/abs/2602.05643)
