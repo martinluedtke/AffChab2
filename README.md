@@ -4,13 +4,13 @@ Computing S-integral points via the Affine Chabauty method: examples of hyperell
 Sage code for the paper "Affine Chabauty II" [[LL26]](https://arxiv.org/abs/2602.05643)
 
 The file `SupEllInt.sage` defines a class for curves of the form $y^3 = x^3 + ax^2 + x$ and a function `coleman_integrals_on_basis` to compute Coleman integrals of the logarithmic differentials $dx/y^2$, $x dx/y^2$, $dx/y$.
-The file `ExSupEll.sage` contains the Affine Chabauty computations for the $\mathbb{Z}[1/487]$-points on the curve with parameter $a = 1$. It determines an annihilating log differential and verifies its vanishing on the point $(216/487, 438/487)$, providing the computations for Example 5.3 of [LL26]. The file `ExHyp.sage` computes the Chabauty locus for the integral points on the hyperelliptic curve 
+The file `ExSupEll.sage` contains the Affine Chabauty computations for the $\mathbb{Z}[1/487]$-points on the curve with parameter $a = 1$. It determines an annihilating log differential for $p=7$, verifies its vanishing on the point $(216/487, 438/487)$, and computes the zero locus away from the residue discs with $x \equiv -1 \bmod p$, providing the computations for Example 5.3 of [LL26]. The file `ExHyp.sage` computes the Chabauty locus for the integral points on the hyperelliptic curve 
 
 $$ y^2 = x^6 + 2x^5 - 7x^4 - 18x^3 + 2x^2 + 20x + 9, $$
 
 showing [LL26], Theorem 5.2.
 
-To run the code, place the Sage files in the working directory and call `sage ExSupEll.sage` or `sage ExHyp.sage`. One also needs the code from [https://github.com/jbalakrishnan/AWS](https://github.com/jbalakrishnan/AWS) to compute Coleman integrals and the file `Zproots.sage` from [https://github.com/martinluedtke/RefinedCK](https://github.com/martinluedtke/RefinedCK) to compute roots of p-adic polynomials. The code was tested on Sage 10.8. 
+To run the code, place the Sage files in the working directory and call `sage ExSupEll.sage` or `sage ExHyp.sage`. One also needs the code from [https://github.com/jbalakrishnan/AWS](https://github.com/jbalakrishnan/AWS) to compute Coleman integrals (rebuilding Sage is usually not necessary) and the file `Zproots.sage` from [https://github.com/martinluedtke/RefinedCK](https://github.com/martinluedtke/RefinedCK) to compute roots of p-adic polynomials. The code was tested on Sage 10.8. 
 
 The output of `ExSupEll.sage` should look as follows:
 ```
@@ -18,19 +18,38 @@ Curve: y^3 = x^3 + x^2 + x
 base point: P₀ = (0, 0)
 Mordell—Weil generator: A - P₀ with A = (1/18, 7/18)
 auxiliary prime: 7
-precision: 20
+precision: 10
 S = {487}
 reduction type: (u,v) = (232,0) mod 487
 
 Basis of log differentials: ω₁ = dx/y^2,  ω₂ = x dx/y^2,  ω₃ = dx/y
 
 Annihilating log differential ω = a₁ω₁ + a₂ω₂ + a₃ω₃ has coefficients
-  a₁ = 1 + O(7^18)
-  a₂ = 2 + 6*7 + 2*7^2 + 3*7^3 + 4*7^5 + 5*7^6 + 2*7^7 + 4*7^8 + 5*7^9 + 3*7^10 + 5*7^12 + 4*7^13 + 6*7^14 + 3*7^15 + 6*7^16 + O(7^18)
-  a₃ = 2*7 + 6*7^2 + 2*7^5 + 4*7^7 + 6*7^8 + 3*7^10 + 7^11 + 3*7^12 + 4*7^13 + 6*7^14 + 5*7^15 + 2*7^16 + 5*7^17 + 7^18 + O(7^19)
+  a₁ = 1 + O(7^8)
+  a₂ = 2 + 6*7 + 2*7^2 + 3*7^3 + 4*7^5 + 5*7^6 + 2*7^7 + O(7^8)
+  a₃ = 2*7 + 6*7^2 + 2*7^5 + 4*7^7 + 6*7^8 + O(7^9)
 
 Value of Chabauty function ∫_P₀^P ω on P = (216/487, 438/487):
-  O(7^19)
+  O(7^9)
+
+Computing Chabauty locus...
+residue disc (0, 0) mod 7:
+  (0, 0)
+residue disc (2, 0) mod 7:
+  (2 + 4*7 + 6*7^2 + 3*7^3 + 2*7^5 + 6*7^6 + 2*7^7 + 4*7^8 + 3*7^9 + O(7^10), O(7^9))
+residue disc (4, 0) mod 7:
+  (4 + 2*7 + 3*7^3 + 6*7^4 + 4*7^5 + 4*7^7 + 2*7^8 + 3*7^9 + O(7^10), O(7^9))
+residue disc (5, 1) mod 7:
+  (216/487, 438/487)
+residue disc (5, 2) mod 7:
+  (5 + 3*7 + 4*7^2 + 7^3 + 6*7^4 + 3*7^5 + 2*7^7 + 6*7^8 + O(7^9), 2 + 4*7 + 7^2 + 2*7^3 + 5*7^4 + 5*7^5 + 4*7^6 + 4*7^7 + O(7^9))
+residue disc (5, 4) mod 7:
+  (5 + 3*7 + 6*7^2 + 4*7^3 + 4*7^4 + 3*7^5 + 4*7^8 + O(7^9), 4 + 2*7 + 6*7^3 + 4*7^4 + 2*7^5 + 3*7^6 + 6*7^7 + 4*7^8 + O(7^9))
+skipping bad residue disc (6, 3) mod 7
+skipping bad residue disc (6, 5) mod 7
+skipping bad residue disc (6, 6) mod 7
+
+Chabauty locus contains 2 known points and 4 extra points.
 ```
 
 The output of `ExHyp.sage` should look as follows:
