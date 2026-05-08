@@ -49,49 +49,62 @@ class SuperEllipticExampleCurve(plane_curve.ProjectivePlaneCurve):
         
         EXAMPLES::
 
-            sage: X = SuperEllipticExampleCurve(Qp(7,prec=10),3)
+            sage: X = SuperEllipticExampleCurve(Qp(13,prec=10),3)
             sage: X.coleman_integrals_on_basis(X(0,0), X(-8/3,-2/3))
-            [3*7 + 5*7^3 + 3*7^4 + 3*7^5 + 3*7^7 + 7^8 + 7^9 + O(7^10),
-             4*7^-6 + 3*7^-4 + 6*7^-3 + 6*7^-2 + 5*7^-1 + 4 + 5*7 + 3*7^2 + O(7^3),
-             7^-6 + 3*7^-5 + 4*7^-4 + 5*7^-3 + 3*7^-2 + 4*7^-1 + 7 + 4*7^2 + O(7^3)]
+            [2*13 + 6*13^2 + 12*13^3 + 3*13^4 + 2*13^5 + 9*13^6 + 5*13^7 + 12*13^8 + 2*13^9 + O(13^10),
+             7*13 + 3*13^2 + 3*13^3 + 12*13^6 + 6*13^7 + 5*13^8 + 13^9 + O(13^10),
+             8*13 + 4*13^2 + 11*13^3 + 8*13^4 + 12*13^5 + 10*13^6 + 3*13^7 + 4*13^8 + 11*13^9 + O(13^10)]
 
         """
         K = self.base_ring()
         a = self.param
         p = K.prime()
-        if a == 0:
-            raise ValueError("Case a = 0 is not implemented")
+
+        
+        if K(a+2).valuation() > 0 or K(a-2).valuation() > 0:
+            raise ValueError(f"Prime {p} is a prime of bad reduction")
+        
+        if not K.has_root_of_unity(3):
+            raise ValueError("3rd roots of unity need to be contained in base field")
+        ζ3 = K.primitive_root_of_unity(3)
         
         for R in [P,Q]:
-            if R[2].valuation() > 0 or (R[0]/R[2] + 1/a).valuation() > 0:
-                raise ValueError("Endpoints cannot lie in infinite residue discs or discs with x == -1/a mod p")
-
+            if R[2] == 0 or R[0].valuation() < 0 or R[1].valuation() < 0:
+                raise ValueError("Endpoints cannot lie in infinite residue discs!")
+            if a != 0 and (R[0] + 1/a).valuation() > 0:
+                raise ValueError("Endpoints cannot lie in residue discs with x == -1/a mod p!")
 
         E = EllipticCurve(K, [0,0,0,0,a^2/4-1])
-        to_E = lambda R: E(R[1], R[2] + a/2*R[0], R[0])
+        to_E = lambda R: E(R[1], 1 + a/2*R[0], R[0])
         int_omega1 = -3*E.coleman_integrals_on_basis(to_E(P),to_E(Q))[0]
 
-        # integrals of symmetric parts of ω₂ and ω₃ are computed on ℙ¹
-        ζ3 = K.primitive_root_of_unity(3)
-        w = lambda R: R[0]/R[1] if R[1] != 0 else R[1]^2/(R[0]^2 + a*R[0] + 1)
-        int_omega2_symm = -1/2 * sum(ζ^2 * ((w(Q)-ζ)/(w(P)-ζ)).log(0) for ζ in [1,ζ3,ζ3^2])
-        int_omega3_symm = -1/2 * sum(ζ * ((w(Q)-ζ)/(w(P)-ζ)).log(0) for ζ in [1,ζ3,ζ3^2])
+        # compute ∫_P^Q as ∫_P₀^Q - ∫_P₀^P with P₀=(0,0)
+        int_omega2 = 0
+        int_omega3 = 0
+        for (sign,R) in [(+1,Q),(-1,P)]:
+            if R[1] != 0:  # ∫_P₀^R is zero when y(R)=0
+                w = lambda S: S[0]/S[1]
+                # integrals of symmetric parts of ω₂ and ω₃ are computed on ℙ¹
+                int_omega2_symm = -1/2 * sum(ζ^2 * (w(R)-ζ).log(0) for ζ in [1,ζ3,ζ3^2])
+                int_omega3_symm = -1/2 * sum(ζ * (w(R)-ζ).log(0) for ζ in [1,ζ3,ζ3^2])
+
+                int_omega2_antisymm = 0
+                int_omega3_antisymm = 0
+                if a != 0:  # there are no antisymmetric parts when a = 0
+                    _.<x> = PolynomialRing(K)
+                    for ζ in [1,ζ3,ζ3^2]:
+                        # integrals of antisymmetric parts are computed on auxiliary curves Xζ
+                        # where integrands become s ds/(2t)
+                        T = x^4 + 12/a^2*ζ^2*x^3 + 12/a^2*ζ*x^2 + 4/a^2*x
+                        Xζ = HyperellipticCurve(T, check_squarefree = false)
+                        to_Xζ = lambda S: Xζ(w(S)/(1-w(S)*ζ), -2*(1/S[0]+a/2)/a * w(S)^2/(1-w(S)*ζ)^2) if S[0] != 0 else Xζ(0,0)
+                        Xζ_int = Xζ.coleman_integrals_on_basis(Xζ(0,0),to_Xζ(R))[1]
+                        int_omega2_antisymm += -ζ * Xζ_int
+                        int_omega3_antisymm += -ζ^2 * Xζ_int
+
+                int_omega2 += sign * (int_omega2_symm + int_omega2_antisymm)
+                int_omega3 += sign * (int_omega3_symm + int_omega3_antisymm)
         
-        # integrals of antisymmetric parts are computed on auxiliary curves Xζ
-        # where integrands become s ds/(2t)
-        int_omega_2_antisymm = 0
-        int_omega_3_antisymm = 0
-        _.<x> = PolynomialRing(K)
-        for ζ in [1,ζ3,ζ3^2]:
-            T = x^4 + 12/a^2*ζ^2*x^3 + 12/a^2*ζ*x^2 + 4/a^2*x
-            Xζ = HyperellipticCurve(T, check_squarefree = false)
-            to_Xζ = lambda R: Xζ(w(R)/(1-w(R)*ζ), -2*(1/R[0]+a/2)/a * w(R)^2/(1-w(R)*ζ)^2) if R[0] != 0 else Xζ(0,0)
-            Xζ_int = Xζ.coleman_integrals_on_basis(to_Xζ(P),to_Xζ(Q))[1]
-            int_omega_2_antisymm += -ζ * Xζ_int
-            int_omega_3_antisymm += -ζ^2 * Xζ_int
-        
-        int_omega2 = int_omega2_symm + int_omega_2_antisymm
-        int_omega3 = int_omega3_symm + int_omega_3_antisymm
         return [int_omega1, int_omega2, int_omega3]
 
 
