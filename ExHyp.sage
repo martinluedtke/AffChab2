@@ -39,6 +39,8 @@ print(f"precision: {prec}")
 print("Basis of log differentials: ω₀ = dx/y,  ω₁ = x dx/y,  ω₂ = x² dx/y")
 print("")
 
+# Construct the matrix M. We assume that the Mordell—Weil generators Gᵢ 
+# have vanishing local heights hₗ(Gᵢ,∞+ - ∞-) away from p.
 M = matrix(X.coleman_integrals_on_basis(X(P0),X(Q))[:(g+1)] for Q in MW_generators)
 ker_basis = M.right_kernel().basis()
 coeffs = ker_basis[0]
@@ -107,7 +109,7 @@ for Fppoint in Fppoints:
     ints_to_P = X.coleman_integrals_on_basis(X(P0), P)
     h = sum(coeffs[j] * (2*ints_to_P[j] + (xt^j * omega0_over_dt).integral()) for j in range(g+1))
 
-    # tail_prec = lower bound for p-adic valuation of coefficients of the O(p^N) term of h(t)
+    # tail_prec = lower bound for p-adic valuation of coefficients of the O(t^N) term of h(t)
     k0 = h.prec()
     tail_prec = k0 - floor_log(p,k0) + min(c.valuation() for c in coeffs)
     int_poly = h.truncate()
