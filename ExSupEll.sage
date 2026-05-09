@@ -22,29 +22,40 @@ N = 10 # precision
 P0 = (0,0)  # base point
 A = (1/18, 7/18)  # G := A - P0 generates the Mordell-Weil group up to finite index
 
+# reduction type: (1 : 232 : 0) or (1 : 254 : 0) or (1 : 1 : 0) mod 487
+red_type = [(1,232,0), (1,254,0), (1,1,0)][0]  # change this line for different reduction types
+
 print(f"Curve: y^3 = x^3 + {a if a != 1 else ''}x^2 + x")
 print(f"base point: P₀ = {P0}")
 print(f"Mordell—Weil generator: A - P₀ with A = {A}")
 print(f"auxiliary prime: {p}")
 print(f"precision: {N}")
-
-K = Qp(p,N)
-X = SuperEllipticExampleCurve(K, a)
-
-MW_ints = X.coleman_integrals_on_basis(X(P0), X(A))
-
-# reduction type Q₂ modulo (2ζ₃ + 23), i.e. (u,v) = (232,0) mod 487, where u = y/x, v = 1/x
 print("S = {487}")
-print(f"reduction type: (u,v) = (232,0) mod 487")
+print(f"reduction type: ({red_type[0]} : {red_type[1]} : {red_type[2]}) mod 487")
 print("")
 
-known_points = [(0,0), (216/487, 438/487)]
+K = Qp(p,N)
+ζ3 = K.primitive_root_of_unity(3)
+X = SuperEllipticExampleCurve(K, a)
+MW_ints = X.coleman_integrals_on_basis(X(P0), X(A))
+
+# second row entries of M(Σ^csp) depend on the reduction type
+if red_type == (1,232,0):
+  known_points = [(0,0), (216/487, 438/487)]
+  δ2 = sum(-ζ*log(2*ζ+23) for ζ in [ζ3,ζ3^2])
+  δ3 = sum(-ζ^2*log(2*ζ+23) for ζ in [ζ3,ζ3^2])
+elif red_type == (1,254,0):
+  known_points = [(0,0)]
+  δ2 = sum(-ζ^2*log(2*ζ+23) for ζ in [ζ3,ζ3^2])
+  δ3 = sum(-ζ*log(2*ζ+23) for ζ in [ζ3,ζ3^2])
+elif red_type == (1,1,0):
+  known_points = [(0,0)]
+  δ2 = -log(K(487))
+  δ3 = -log(K(487))
 
 β2 = -log(K(2)) - 1/2*log(K(3))
 β3 = β2
-ζ3 = K.primitive_root_of_unity(3)
-δ2 = sum(-ζ*log(2*ζ+23) for ζ in [ζ3,ζ3^2])
-δ3 = sum(-ζ^2*log(2*ζ+23) for ζ in [ζ3,ζ3^2])
+
 # The matrix M(Σ^csp)
 M = matrix(K, [
     [MW_ints[0],   MW_ints[1]-β2,   MW_ints[2]-β3],
@@ -59,20 +70,21 @@ print("")
 ker_basis = M.right_kernel().basis()
 a1,a2,a3 = ker_basis[0]
 
-# The differential ω = a₁ω₁ + a₂ω₂ + a₃ω₃ vanishes on Z[1/487]-points.
+# The differential ω = a₁ω₁ + a₂ω₂ + a₃ω₃ vanishes on ℤ[1/487]-points of the given reduction type.
 print("Annihilating log differential ω = a₁ω₁ + a₂ω₂ + a₃ω₃ has coefficients")
 print(f"  a₁ = {a1}")
 print(f"  a₂ = {a2}")
 print(f"  a₃ = {a3}")
 print("")
 
-# We check this for (216/487, 438/487)
-P = (216/487, 438/487)
-ints_P = X.coleman_integrals_on_basis(X(P0), X(P))
-val_P = a1*ints_P[0] + a2*ints_P[1] + a3*ints_P[2]
-print(f"Value of Chabauty function ∫_P₀^P ω on P = {P}:")
-print(f"  {val_P}")
-print("")
+if red_type == (1,232,0):
+  # We check this for (216/487, 438/487)
+  P = (216/487, 438/487)
+  ints_P = X.coleman_integrals_on_basis(X(P0), X(P))
+  val_P = a1*ints_P[0] + a2*ints_P[1] + a3*ints_P[2]
+  print(f"Value of Chabauty function ∫_P₀^P ω on P = {P}:")
+  print(f"  {val_P}")
+  print("")
 
 
 # find Fp-points and known S-integral points that reduce to them
@@ -153,4 +165,4 @@ for Fppoint in Fppoints:
             print(f"  {(x_coord, y_coord)}")
     
 print("")
-print(f"Chabauty locus contains {len(Chab_locus_known)} known points and {len(Chab_locus_extra)} extra point{'s' if len(Chab_locus_extra) != 1 else ''}.")
+print(f"Chabauty locus contains {len(Chab_locus_known)} known point{'s' if len(Chab_locus_known)!=1 else ''} and {len(Chab_locus_extra)} extra point{'s' if len(Chab_locus_extra) != 1 else ''}.")
